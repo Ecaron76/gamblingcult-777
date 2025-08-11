@@ -3,6 +3,9 @@ import Image from "next/image";
 import { LINKS, SITE, TOKEN } from "../lib/constants";
 import MatrixBg from "@/components/MatricBg";
 import { useEffect, useState } from "react";
+import Ticker from "@/components/Ticker";
+import MCCountdown from "@/components/MCCountdown";
+import GoalCard from "@/components/MCCountdown";
 const RPC_URL = "https://mainnet.helius-rpc.com/v1/8ce7891c-0bb4-4bcd-a04d-edbe376ad2b0"
 export default function Home() {
   const [marketCap, setMarketCap] = useState(null);
@@ -57,10 +60,12 @@ export default function Home() {
       <MatrixBg />
 
       {/* NAV */}
+      
       <header className="sticky top-4 z-40 backdrop-blur bg-black/30 border border-white/10 rounded-xl shadow-[0_8px_40px_rgba(0,0,0,.35)]">
+      <Ticker />
         <div className="px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Image src="/logo.png" width={36} height={36} alt="logo" className="rounded-md drop-shadow-[0_0_14px_#41ff87]" />
+          <Image src="/logo.png" width={36} height={36} alt="logo" className="rounded-md logo-glitch" />
             <span className="font-extrabold tracking-tight">GamblingCult</span>
           </div>
           <nav className="hidden md:flex items-center gap-2">
@@ -125,6 +130,9 @@ export default function Home() {
         <Feature tag="Community First" sub="Memes > Meetings" />
       </section>
 
+      <div className="mt-5">
+  <GoalCard current={marketCap ?? 0} target={1_000_000} />
+</div>
       {/* TOKENOMICS */}
       <section id="tokenomics" className="mt-16">
   <h2 className="text-2xl font-extrabold mb-2 gradient">Tokenomics</h2>
