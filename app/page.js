@@ -2,8 +2,56 @@
 import Image from "next/image";
 import { LINKS, SITE, TOKEN } from "../lib/constants";
 import MatrixBg from "@/components/MatricBg";
-
+import { useEffect, useState } from "react";
+const RPC_URL = "https://mainnet.helius-rpc.com/v1/8ce7891c-0bb4-4bcd-a04d-edbe376ad2b0"
 export default function Home() {
+  const [marketCap, setMarketCap] = useState(null);
+  const [holders, setHolders] = useState(null);
+
+  useEffect(() => {
+    let timer;
+    const load = async () => {
+      await Promise.all([updateMC(), updateHolders()]);
+      timer = setTimeout(load, 30_000); // refresh 30s
+    };
+    load();
+    return () => clearTimeout(timer);
+  }, []);
+
+  async function safeJson(res) {
+    if (!res.ok) return null;
+    const ct = res.headers.get("content-type") || "";
+    if (!ct.includes("application/json")) return null;
+    try { return await res.json(); } catch { return null; }
+  }
+
+  // 1) Market cap via DexScreener
+  async function updateMC() {
+    try {
+      // endpoint tokens → pairs array (souvent fdv présent)
+      const r1 = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${TOKEN.mint}`);
+      const j1 = await safeJson(r1);
+      const pair = j1?.pairs?.[0];
+      const mc = pair?.marketCap || pair?.fdv; // selon listing
+      if (mc) setMarketCap(Math.round(mc));
+    } catch (e) {
+      console.warn("MC fetch error", e);
+    }
+  }
+
+  // 2) Holders: tente Solscan (rapide), sinon RPC (fallback)
+  // Holders via Solana RPC (no Solscan)
+  async function updateHolders() {
+    try {
+      const r = await fetch("/api/holders");
+      const j = await r.json();
+      setHolders(j.holders);
+    } catch (e) {
+      console.warn("Holders fetch error", e);
+    }
+  }
+  
+  
   return (
     <main className="relative max-w-6xl mx-auto px-4 py-10">
       <MatrixBg />
@@ -48,10 +96,11 @@ export default function Home() {
           <p className="text-xs text-zinc-500 mt-3">Disclaimer: Not financial advice. Do your own research.</p>
 
           <div className="grid grid-cols-3 gap-3 mt-5">
-            <KPI label="Market Cap" value="—" />
-            <KPI label="Holders" value="—" />
-            <KPI label="LP" value="Locked ✅" accent />
-          </div>
+  <KPI label="Market Cap" value={<CountUp n={marketCap} prefix="$" />} />
+  <KPI label="Holders" value={<CountUp n={holders} />} />
+  <KPI label="LP" value="Locked ✅" accent />
+</div>
+
         </div>
 
         {/* Right: meme banner card */}
@@ -182,14 +231,7 @@ export default function Home() {
 }
 
 /* ---------- small components ---------- */
-function KPI({ label, value, accent }) {
-  return (
-    <div className="rounded-xl border border-white/10 bg-black/30 p-3">
-      <span className="text-zinc-400">{label}</span>
-      <b className={`block text-lg ${accent ? "text-emerald-400" : ""}`}>{value}</b>
-    </div>
-  );
-}
+
 
 function Feature({ tag, sub }) {
   return (
@@ -242,4 +284,34 @@ function DistRow({ name, pct, color }) {
       </div>
     </div>
   );
+}
+function KPI({ label, value, accent }) {
+  return (
+    <div className="rounded-xl border border-white/10 bg-black/30 p-3">
+      <span className="text-zinc-400">{label}</span>
+      <b className={`block text-lg ${accent ? "text-emerald-400" : ""}`}>{value ?? "—"}</b>
+    </div>
+  );
+}
+
+function CountUp({ n, prefix = "" }) {
+  const [val, setVal] = useState(n ?? 0);
+  useEffect(() => {
+    if (typeof n !== "number") return;
+    const start = val, end = n;
+    const dur = 500; // ms
+    const t0 = performance.now();
+    let raf;
+    const step = (t) => {
+      const p = Math.min(1, (t - t0) / dur);
+      const v = Math.round(start + (end - start) * p);
+      setVal(v);
+      if (p < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [n]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (typeof n !== "number") return <>—</>;
+  return <>{prefix}{val.toLocaleString()}</>;
 }
