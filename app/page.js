@@ -1,103 +1,245 @@
+"use client"
 import Image from "next/image";
+import { LINKS, SITE, TOKEN } from "../lib/constants";
+import MatrixBg from "@/components/MatricBg";
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <main className="relative max-w-6xl mx-auto px-4 py-10">
+      <MatrixBg />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* NAV */}
+      <header className="sticky top-4 z-40 backdrop-blur bg-black/30 border border-white/10 rounded-xl shadow-[0_8px_40px_rgba(0,0,0,.35)]">
+        <div className="px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Image src="/logo.png" width={36} height={36} alt="logo" className="rounded-md drop-shadow-[0_0_14px_#41ff87]" />
+            <span className="font-extrabold tracking-tight">GamblingCult</span>
+          </div>
+          <nav className="hidden md:flex items-center gap-2">
+            <a href="#tokenomics" className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 text-sm text-zinc-200 hover:bg-white/5">Tokenomics</a>
+            <a href="#buy" className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 text-sm text-zinc-200 hover:bg-white/5">Buy</a>
+            <a href="#roadmap" className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 text-sm text-zinc-200 hover:bg-white/5">Roadmap</a>
+            <a href={LINKS.x} target="_blank" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-zinc-100 border border-white/20 hover:bg-white/5">X / Community</a>
+            <a href={LINKS.pump} target="_blank" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-black shadow-[0_10px_30px_#0006] bg-[linear-gradient(135deg,var(--pri),var(--pri2))]">Buy ${SITE.ticker}</a>
+          </nav>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      </header>
+
+      {/* HERO */}
+      <section className="grid md:grid-cols-2 gap-6 mt-8">
+        <div className="rounded-2xl border border-white/10 p-6 bg-[linear-gradient(180deg,var(--card),#0b1017)] shadow-[0_10px_30px_rgba(0,0,0,.35)]">
+          <div className="flex items-center gap-3 text-xs text-emerald-300/80">
+            <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-emerald-400/30 bg-emerald-400/10">SOL • Community Token</span>
+            <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-emerald-400/30 bg-emerald-400/10">0/0 tax</span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-black leading-tight mt-3">
+            {SITE.name} <span className="gradient">${SITE.ticker}</span>
+          </h1>
+          <p className="text-zinc-300 mt-3">{SITE.description}</p>
+
+          <div className="flex flex-wrap gap-3 mt-5">
+            <a href={LINKS.pump} target="_blank" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-black shadow-[0_10px_30px_#0006] bg-[linear-gradient(135deg,var(--pri),var(--pri2))]">Pump.fun</a>
+            <a href={LINKS.jupiterSwap} target="_blank" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-zinc-100 border border-white/20 hover:bg-white/5">Swap via Jupiter</a>
+            <a href={`https://solscan.io/token/${TOKEN.mint}`} target="_blank" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-zinc-100 border border-white/20 hover:bg-white/5">
+              Mint: {TOKEN.mint.slice(0,6)}...{TOKEN.mint.slice(-4)}
+            </a>
+          </div>
+
+          <p className="text-xs text-zinc-500 mt-3">Disclaimer: Not financial advice. Do your own research.</p>
+
+          <div className="grid grid-cols-3 gap-3 mt-5">
+            <KPI label="Market Cap" value="—" />
+            <KPI label="Holders" value="—" />
+            <KPI label="LP" value="Locked ✅" accent />
+          </div>
+        </div>
+
+        {/* Right: meme banner card */}
+        {/* Right: meme banner card */}
+<div className="rounded-2xl border border-white/10 overflow-hidden bg-[linear-gradient(180deg,var(--card),#0b1017)] shadow-[0_10px_30px_rgba(0,0,0,.35)] h-full">
+  <Image
+    src="/banner.png"
+    alt="GamblingCult banner"
+    width={1200}
+    height={900}
+    className="w-full h-full object-cover"
+    priority
+  />
+</div>
+
+      </section>
+
+      {/* FEATURE STRIP */}
+      <section className="mt-10 grid sm:grid-cols-3 gap-3">
+        <Feature tag="No Presale" sub="100% fair-launch" />
+        <Feature tag="LP Locked" sub="Proof on-chain" />
+        <Feature tag="Community First" sub="Memes > Meetings" />
+      </section>
+
+      {/* TOKENOMICS */}
+      <section id="tokenomics" className="mt-16">
+  <h2 className="text-2xl font-extrabold mb-2 gradient">Tokenomics</h2>
+
+  {/* KPI cards */}
+  <div className="grid sm:grid-cols-3 gap-4 mt-4">
+    <StatCard label="Total Supply" value={`1,000,000,000 $${SITE.ticker}`} />
+    <StatCard label="Taxes" value="0 / 0" />
+    <StatCard label="Network" value="Solana" />
+  </div>
+
+  {/* Distribution + Mint */}
+  <div className="grid md:grid-cols-2 gap-6 mt-6">
+    {/* Distribution */}
+    <div className="rounded-2xl border border-white/10 p-6 bg-[linear-gradient(180deg,var(--card),#0b1017)]">
+      <h3 className="font-semibold mb-3">Allocation</h3>
+
+      <DistRow name="LP" pct={100} color="bg-emerald-400" />
+      <DistRow name="Team" pct={0}   color="bg-zinc-500" />
+      <DistRow name="CEX"  pct={0}   color="bg-zinc-500" />
+
+      <div className="text-xs text-zinc-400 mt-3">
+        * TBC = to be confirmed. Update if allocations change.
+      </div>
+    </div>
+
+    {/* Mint + quick links */}
+    <div className="rounded-2xl border border-white/10 p-6 bg-[linear-gradient(180deg,var(--card),#0b1017)]">
+      <h3 className="font-semibold mb-3">Mint Address</h3>
+
+      <div className="flex items-center gap-2 p-3 rounded-xl border border-white/10 bg-black/30">
+        <code className="text-sm break-all flex-1">{TOKEN.mint}</code>
+        <button
+          onClick={() => navigator.clipboard.writeText(TOKEN.mint)}
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg font-semibold text-black bg-[linear-gradient(135deg,var(--pri),var(--pri2))] shadow-[0_10px_30px_#0006]"
+          aria-label="Copy mint"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+          Copy
+        </button>
+      </div>
+
+      <div className="grid grid-cols-3 gap-3 mt-4">
+        <a href={`https://solscan.io/token/${TOKEN.mint}`} target="_blank" className="quicklink">Solscan</a>
+        <a href={LINKS.dexscreener} target="_blank" className="quicklink">DexScreener</a>
+        <a href={LINKS.pump} target="_blank" className="quicklink">Pump.fun</a>
+      </div>
+
+      {/* mini badge avec le logo */}
+      <div className="mt-5 flex items-center gap-2 text-zinc-300">
+        <Image src="/logo.png" alt="CULT 777" width={28} height={28} className="rounded-md drop-shadow-[0_0_10px_#41ff87]" />
+        <span className="text-sm">LP <span className="text-emerald-400 font-semibold">Locked</span> • Taxes <span className="text-emerald-400 font-semibold">0/0</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+      {/* HOW TO BUY */}
+      <section id="buy" className="mt-16">
+        <h2 className="text-2xl font-extrabold mb-2 gradient">How to Buy</h2>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="rounded-2xl border border-white/10 p-6 bg-[linear-gradient(180deg,var(--card),#0b1017)]">
+            <ol className="list-decimal list-inside space-y-2 text-zinc-200">
+              <li>Install <b>Phantom</b> and fund with <b>SOL</b>.</li>
+              <li>Open <a className="underline text-emerald-400" href={LINKS.pump} target="_blank">Pump.fun</a> or <a className="underline text-emerald-400" href={LINKS.jupiterSwap} target="_blank">Jupiter</a>.</li>
+              <li>Verify the mint: <code className="break-all">{TOKEN.mint}</code>.</li>
+              <li>Set slippage if needed, confirm, and ride the meme.</li>
+            </ol>
+            <div className="flex gap-3 mt-4">
+              <a href={LINKS.dexscreener} target="_blank" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-black shadow-[0_10px_30px_#0006] bg-[linear-gradient(135deg,var(--pri),var(--pri2))]">DexScreener</a>
+              <a href={LINKS.x} target="_blank" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-zinc-100 border border-white/20 hover:bg-white/5">Twitter / X</a>
+            </div>
+          </div>
+          {/* Meme gallery box with logo */}
+          
+        </div>
+      </section>
+
+      {/* ROADMAP */}
+      <section id="roadmap" className="mt-16">
+        <h2 className="text-2xl font-extrabold mb-2 gradient">Roadmap</h2>
+        <div className="relative grid md:grid-cols-3 gap-6">
+          <RoadStep n="1" title="Launch & Lock" text="Pump.fun launch, LP lock, reach 1k holders." />
+          <RoadStep n="2" title="Go Viral" text="Memes, collabs, listings on trackers, community raids." />
+          <RoadStep n="3" title="777 Utility" text="‘777 spin’ mini‑game, merch, integrations." />
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="mt-16 mb-24">
+        <h2 className="text-2xl font-extrabold mb-2 gradient">FAQ</h2>
+        <div className="rounded-2xl border border-white/10 bg-[linear-gradient(180deg,var(--card),#0b1017)] divide-y divide-white/10">
+          <FaqRow q="Is the mint authority frozen?" a="Yes. Authority is revoked/transferred — verify on Solscan." />
+          <FaqRow q="Any taxes?" a="0 / 0." />
+          <FaqRow q="Is LP locked?" a="Yes — share the locker link as proof." />
+        </div>
+      </section>
+
+      <footer className="py-10 text-sm text-zinc-400 flex items-center justify-between">
+        <span>© {new Date().getFullYear()} GamblingCult — Made with memes & ❤️</span>
+        <a href={LINKS.x} target="_blank" className="underline hover:text-zinc-200">Join the Cult on X</a>
       </footer>
+    </main>
+  );
+}
+
+/* ---------- small components ---------- */
+function KPI({ label, value, accent }) {
+  return (
+    <div className="rounded-xl border border-white/10 bg-black/30 p-3">
+      <span className="text-zinc-400">{label}</span>
+      <b className={`block text-lg ${accent ? "text-emerald-400" : ""}`}>{value}</b>
+    </div>
+  );
+}
+
+function Feature({ tag, sub }) {
+  return (
+    <div className="rounded-xl border border-emerald-400/20 bg-emerald-400/5 px-4 py-3 flex items-center justify-between">
+      <span className="font-semibold">{tag}</span>
+      <span className="text-emerald-300/80 text-sm">{sub}</span>
+    </div>
+  );
+}
+
+function RoadStep({ n, title, text }) {
+  return (
+    <div className="rounded-2xl border border-white/10 p-6 bg-[linear-gradient(180deg,var(--card),#0b1017)] relative">
+      <span className="absolute -left-3 -top-3 w-10 h-10 rounded-full grid place-items-center text-black font-black shadow-[0_0_20px_#41ff87] bg-[linear-gradient(135deg,var(--pri),var(--pri2))]">{n}</span>
+      <h3 className="font-bold text-lg mb-1">{title}</h3>
+      <p className="text-zinc-300">{text}</p>
+    </div>
+  );
+}
+
+function FaqRow({ q, a }) {
+  return (
+    <details className="p-5 group">
+      <summary className="cursor-pointer font-semibold flex items-center justify-between">
+        {q}
+        <span className="text-emerald-300/80 text-xs group-open:rotate-180 transition">▼</span>
+      </summary>
+      <p className="text-zinc-300 mt-2">{a}</p>
+    </details>
+  );
+}
+function StatCard({ label, value }) {
+  return (
+    <div className="rounded-2xl border border-white/10 p-4 bg-[linear-gradient(180deg,var(--card),#0b1017)]">
+      <span className="text-zinc-400 text-sm">{label}</span>
+      <div className="mt-1 text-lg font-semibold">{value}</div>
+    </div>
+  );
+}
+
+function DistRow({ name, pct, color }) {
+  return (
+    <div className="mb-3">
+      <div className="flex items-center justify-between text-sm">
+        <span className="text-zinc-300">{name}</span>
+        <span className="text-zinc-400">{pct}%</span>
+      </div>
+      <div className="h-2 mt-1 rounded-full bg-white/10 overflow-hidden">
+        <div className={`h-full ${color}`} style={{ width: `${pct}%` }} />
+      </div>
     </div>
   );
 }
