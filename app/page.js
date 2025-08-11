@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Ticker from "@/components/Ticker";
 import MCCountdown from "@/components/MCCountdown";
 import GoalCard from "@/components/MCCountdown";
+import HallOfFame from "@/components/HallOfFame";
 const RPC_URL = "https://mainnet.helius-rpc.com/v1/8ce7891c-0bb4-4bcd-a04d-edbe376ad2b0"
 export default function Home() {
   const [marketCap, setMarketCap] = useState(null);
@@ -132,6 +133,7 @@ export default function Home() {
 
       <div className="mt-5">
   <GoalCard current={marketCap ?? 0} target={1_000_000} />
+  <HallOfFame />
 </div>
       {/* TOKENOMICS */}
       <section id="tokenomics" className="mt-16">
