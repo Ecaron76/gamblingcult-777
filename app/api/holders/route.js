@@ -1,7 +1,10 @@
+import { TOKEN } from "@/lib/constants";
+
+const mint = TOKEN.mint;  // ⬅️ utilise la même source
 export async function GET() {
     const RPC_URL =
       "https://mainnet.helius-rpc.com/?api-key=8ce7891c-0bb4-4bcd-a04d-edbe376ad2b0";
-    const mint = "BMoJWgoF7GZjjYskH1BCz1xZnJXa1xyhvZ9Evup7q9bZ";
+    
   
     // Legacy SPL Token program (change to Token-2022 if needed)
     const TOKEN_PROGRAM = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";

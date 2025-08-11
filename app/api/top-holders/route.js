@@ -1,7 +1,9 @@
 // app/api/holders-list/route.js
+import { TOKEN } from "@/lib/constants";
+const mint = TOKEN.mint;  // ⬅️ utilise la même source
 export async function GET() {
     const RPC_URL = "https://mainnet.helius-rpc.com/?api-key=8ce7891c-0bb4-4bcd-a04d-edbe376ad2b0";
-    const mint = "BMoJWgoF7GZjjYskH1BCz1xZnJXa1xyhvZ9Evup7q9bZ";
+    
     const TOKEN_PROGRAM_LEGACY = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
     const TOKEN_PROGRAM_2022   = "TokenzQdGc8h5ESmYkGqG4qMnh4Ykq1t7JRDW1iSkKy";
     const EXCLUDED = new Set(["3aSSxKctpyXkvM9WcuMTjDrx9PaZ9aRGbLciUGYa6Y2G"]); // LP
