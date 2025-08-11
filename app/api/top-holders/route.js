@@ -6,7 +6,7 @@ export async function GET() {
     
     const TOKEN_PROGRAM_LEGACY = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
     const TOKEN_PROGRAM_2022   = "TokenzQdGc8h5ESmYkGqG4qMnh4Ykq1t7JRDW1iSkKy";
-    const EXCLUDED = new Set(["3aSSxKctpyXkvM9WcuMTjDrx9PaZ9aRGbLciUGYa6Y2G"]); // LP
+    const EXCLUDED = new Set(["63cC7FK9kNVZw76rVekpGmVTcqQyPP5uk4LmKz5jpi7N"]); // LP
   
     async function rpc(method, params) {
       const r = await fetch(RPC_URL, {
